@@ -26,9 +26,8 @@ beams = set()
 beams.add(s[1]) # The beams om this row.
 
 for r,line in enumerate(lines):
-    if '^' in line: # Only here can splits occur.
-        beams, newsplits = down(beams, r, splitters)
-        splits += newsplits
+    beams, newsplits = down(beams, r, splitters)
+    splits += newsplits
     
 print('Advent of code, day 7, part 1:', splits)
 
@@ -42,11 +41,11 @@ def trickle(p):
     if (r,c) in brainz: # Get from memory
         return(brainz[(r,c)])
 
-    if (r,c) in splitters: # Split!
-        brainz[(r,c)] = trickle((r+1, c-1)) + trickle((r+1, c+1))
+    if (r,c) in splitters: # Split! And we only need to check every other row. :-)
+        brainz[(r,c)] = trickle((r+2, c-1)) + trickle((r+2, c+1))
     
-    else: # No split, continue.
-        brainz[(r,c)] = trickle((r+1, c))
+    else: # No split, continue. And we only need to check every other row. :-)
+        brainz[(r,c)] = trickle((r+2, c))
     return(brainz[(r,c)])
 
 ans2 = trickle(s)
